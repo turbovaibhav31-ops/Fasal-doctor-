@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fasal Doctor</title>
+<meta name="theme-color" content="#2e7d32">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon.svg">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fasal Doctor">
+<style>
+:root{--bg:#f6f4ec;--card:#fff;--ink:#1d2a1f;--mut:#5d6b5f;--g:#2e7d32;--gl:#e3f1e2;--line:#dcd8c8;--warn:#b45309;--wl:#fdf0dc;--bad:#b3261e;--bl:#fbe4e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a13;--card:#1b261c;--ink:#e8efe6;--mut:#9fb09f;--g:#7ccf80;--gl:#22361f;--line:#2d3b2e;--warn:#f0b35a;--wl:#3a2d17;--bad:#f2a29c;--bl:#3b1f1d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121a13;--card:#1b261c;--ink:#e8efe6;--mut:#9fb09f;--g:#7ccf80;--gl:#22361f;--line:#2d3b2e;--warn:#f0b35a;--wl:#3a2d17;--bad:#f2a29c;--bl:#3b1f1d;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Tamil","Noto Sans Telugu",sans-serif}
+main{max-width:560px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0 2px}
+.sub{color:var(--mut);margin:0 0 14px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:4px}
+select,input[type=text]{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--g);border-radius:14px;padding:22px;text-align:center;cursor:pointer;color:var(--g);font-weight:600;min-height:150px;overflow:hidden}
+.drop img{max-width:100%;max-height:260px;border-radius:10px}
+.drop input{display:none}
+button{font:inherit;border:0;border-radius:12px;padding:13px 16px;background:var(--g);color:#fff;font-weight:600;width:100%;cursor:pointer}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button.pri{color:#0b1a0c}}
+:root[data-theme="dark"] button.pri{color:#0b1a0c}
+button.sec{background:var(--gl);color:var(--g)}
+button:disabled{opacity:.5}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:13px;font-weight:600}
+.low{background:var(--gl);color:var(--g)}.medium{background:var(--wl);color:var(--warn)}.high{background:var(--bl);color:var(--bad)}
+h2{font-size:17px;margin:0 0 6px}
+h3{font-size:14px;margin:12px 0 4px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+ul,ol{margin:0;padding-left:20px}li{margin:3px 0}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--g)}
+.note{font-size:13px;color:var(--mut)}
+.esc{background:var(--wl);border-color:var(--warn)}
+.hidden{display:none}
+.hm{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:8px}
+.hm div{aspect-ratio:1;border-radius:6px;background:var(--gl)}
+.hm .m{background:var(--wl)}.hm .h{background:var(--bl)}
+.err{color:var(--bad);font-size:14px}
+.f{margin:8px 0}.f input[type=password],.f input[type=text]{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink)}.chk input{margin-top:4px;width:20px;height:20px;flex:none}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.gal figure{margin:0;position:relative}.gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block}.gal figcaption{font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gal .x{position:absolute;top:2px;right:2px;width:24px;height:24px;padding:0;border-radius:99px;background:rgba(0,0,0,.6);color:#fff;font-size:13px}
+.ok{color:var(--g);font-size:14px}
+a{color:var(--g)}
+.langs{display:grid;grid-template-columns:1fr 1fr;gap:10px}.langs button{background:var(--gl);color:var(--ink);font-size:22px;padding:16px 8px;border:3px solid transparent}.langs button.on{border-color:var(--g);background:var(--card)}
+button.big{font-size:22px;padding:18px}
+.drop{min-height:210px}#dropTxt{font-size:24px}
+.pill{font-size:18px;padding:6px 14px}
+#out li{font-size:18px}#out h2{font-size:22px}
+#out ol{list-style:none;counter-reset:s;padding:0}#out ol li{counter-increment:s;display:flex;gap:10px;align-items:center;margin:8px 0}#out ol li::before{content:counter(s);flex:none;width:34px;height:34px;border-radius:99px;background:var(--g);color:var(--bg);display:grid;place-items:center;font-weight:700}
+</style>
+</head>
+<body>
+<main>
+<h1>🌾 Fasal Doctor</h1>
+<p class="sub" id="sub">Snap a photo of the sick leaf, fruit or stem. Get a diagnosis and action plan in your language.</p>
+
+<div class="card">
+  <div class="langs" id="langs"><button data-v="English|en-IN">English</button><button data-v="Hindi|hi-IN">हिन्दी</button><button data-v="Tamil|ta-IN">தமிழ்</button><button data-v="Telugu|te-IN">తెలుగు</button></div>
+  <select id="lang" class="hidden" aria-hidden="true">
+    <option value="English|en-IN">English</option>
+    <option value="Hindi|hi-IN">हिन्दी</option>
+    <option value="Tamil|ta-IN">தமிழ்</option>
+    <option value="Telugu|te-IN">తెలుగు</option>
+  </select>
+</div>
+
+<div class="card">
+  <label class="drop" id="drop">
+    <span style="font-size:64px;line-height:1">📷</span><span id="dropTxt">Take a photo</span>
+    <input type="file" id="file" accept="image/*" capture="environment">
+  </label>
+  <details style="margin-top:12px"><summary class="note" id="moreSum" style="cursor:pointer">⚙️ More details (optional)</summary><div class="row" style="margin-top:12px">
+    <div><label for="crop">Crop (optional)</label>
+      <select id="crop"><option value="">Not sure</option><option>Rice</option><option>Cotton</option><option>Tomato</option><option>Sugarcane</option><option>Wheat</option><option>Maize</option><option>Chilli</option><option>Groundnut</option></select></div>
+    <div><label for="season">Season</label>
+      <select id="season"><option>Kharif (Jun–Oct)</option><option>Rabi (Nov–Mar)</option><option>Zaid (Apr–Jun)</option></select></div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <div><label for="wx">Recent weather</label>
+      <select id="wx"><option>Normal</option><option>Humid / cloudy</option><option>Heavy or unseasonal rain</option><option>Hot and dry</option></select></div>
+    <div><label for="dist">District / village</label><input type="text" id="dist" placeholder="e.g. Thanjavur"></div>
+  </div>
+  </details><button class="pri big" id="go" style="margin-top:14px" disabled>🔍 Diagnose</button>
+  <p class="note" id="status" style="margin:8px 0 0"></p>
+</div>
+
+<div id="out" class="hidden"></div>
+
+<div class="card">
+  <h2>🗺️ Outbreak watch</h2>
+  <p class="note" style="margin:0">Sample view. In a full version, anonymised scans from nearby farms would colour this grid so farmers and the agriculture department see spreading pests early.</p>
+  <div class="hm" id="hm"></div>
+</div>
+
+<button class="sec" id="adminBtn" style="margin-bottom:12px">🔒 Owner tools</button>
+<div id="admin" class="card hidden"></div>
+<p class="note">Results vary. Always check pesticide labels and confirm doses with your local Krishi Vigyan Kendra (KVK) or agriculture officer before spraying. Helpline: Kisan Call Centre 1800-180-1551.</p>
+<details class="card"><summary style="cursor:pointer;font-weight:600">📲 Install on your phone</summary><p class="note" style="margin:8px 0 0"><b>Android (Chrome):</b> tap ⋮ then “Add to Home screen” or “Install app”.<br><b>iPhone (Safari):</b> tap Share then “Add to Home Screen”.<br>It opens full-screen like an app.</p></details>
+<footer style="text-align:center;margin:20px 0 8px;font-size:13px;color:var(--mut)">© 2026 Stormchasers Team. All rights reserved.</footer>
+</main>
+
+<script>
+// Connects the page to this server (replaces the Claude-hosted runtime)
+window.claude={use:async function(n){
+  if(n!=='sample')return null;
+  return{limits:async function(){return{images:true}},
+    json:async function(prompt,o){
+      var fd=new FormData();fd.append('image',o.images[0],'photo.jpg');fd.append('prompt',prompt);fd.append('crop',(document.getElementById('crop')||{}).value||'');
+      var r=await fetch('/api/diagnose',{method:'POST',body:fd});
+      if(!r.ok)throw new Error('diagnose');return r.json()}}}};
+</script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var blob=null,last=null;
+// sample outbreak grid (illustrative)
+var hm=$('hm'),pat='lllmlllmhhmlllmhhhmllmmhmllllmllllll';
+for(var i=0;i<36;i++){var d=document.createElement('div');var c=pat[i%pat.length];if(c==='m')d.className='m';if(c==='h')d.className='h';hm.appendChild(d)}
+
+// downscale image to keep upload small (helps weak data)
+function shrink(f){return new Promise(function(res,rej){
+  var img=new Image(),u=URL.createObjectURL(f);
+  img.onload=function(){var m=1024,s=Math.min(1,m/Math.max(img.width,img.height));
+    var c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    c.toBlob(function(b){URL.revokeObjectURL(u);b?res(b):rej(new Error('img'))},'image/jpeg',.82)};
+  img.onerror=function(){rej(new Error('img'))};img.src=u})}
+
+$('file').addEventListener('change',function(e){
+  var f=e.target.files[0];if(!f)return;
+  shrink(f).then(function(b){
+    blob=b;var u=URL.createObjectURL(b);
+    var dr=$('drop');dr.innerHTML='';var im=document.createElement('img');im.src=u;im.alt='Your crop photo';dr.appendChild(im);
+    var inp=document.createElement('input');inp.type='file';inp.id='file';inp.accept='image/*';inp.setAttribute('capture','environment');dr.appendChild(inp);
+    inp.addEventListener('change',arguments.callee);
+    $('go').disabled=false;$('status').textContent='';$('go').click();
+  }).catch(function(){$('status').textContent='Could not read that photo. Try another.'});
+});
+
+function el(t,txt,cls){var e=document.createElement(t);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e}
+function list(arr,tag){var l=el(tag||'ul');(arr||[]).forEach(function(x){l.appendChild(el('li',String(x)))});return l}
+
+function render(r,langName,code){
+  var o=$('out');o.innerHTML='';o.classList.remove('hidden');
+  var c=el('div',null,'card');
+  var sev=['low','medium','high'].indexOf(r.severity)>=0?r.severity:'medium';
+  c.appendChild(el('h2',(r.crop?r.crop+' · ':'')+r.issue));
+  var top=el('div');top.appendChild(el('span',(sev==='low'?'🟢 ':sev==='high'?'🔴 ':'🟡 ')+(r.severity_label||r.severity),'pill '+sev));
+  c.appendChild(top);
+  var conf=Math.max(0,Math.min(100,Number(r.confidence)||0));
+  var cl=el('div',(r.confidence_label||'Confidence')+': '+conf+'%','note');cl.style.marginTop='8px';c.appendChild(cl);
+  var b=el('div',null,'bar');var bi=el('i');bi.style.width=conf+'%';b.appendChild(bi);c.appendChild(b);
+  c.appendChild(el('p',r.summary));
+  var L=r.labels||{};
+  c.appendChild(el('h3','✅ '+(L.steps||'What to do')));c.appendChild(list(r.steps,'ol'));
+  if(r.organic&&r.organic.length){c.appendChild(el('h3','🌿 '+(L.organic||'Organic remedies')));c.appendChild(list(r.organic))}
+  if(r.chemical&&r.chemical.length){c.appendChild(el('h3','🧪 '+(L.chemical||'If chemical control is needed')));c.appendChild(list(r.chemical))}
+  if(r.precautions&&r.precautions.length){c.appendChild(el('h3','⚠️ '+(L.precautions||'Safety')));c.appendChild(list(r.precautions))}
+  var sp=el('button',null,'sec');sp.className='sec';sp.style.marginTop='14px';sp.textContent='🔊 '+(L.listen||'Listen');
+  sp.onclick=function(){
+    if(!('speechSynthesis' in window)){sp.textContent='Audio not supported on this phone';return}
+    speechSynthesis.cancel();
+    var t=[r.issue,r.summary].concat(r.steps||[],r.organic||[],r.chemical||[],r.precautions||[]).join('. ');
+    var u=new SpeechSynthesisUtterance(t);u.lang=code;u.rate=.9;speechSynthesis.speak(u)};
+  sp.className='sec big';sp.style.marginTop='0';sp.style.marginBottom='10px';c.insertBefore(sp,c.firstChild);o.appendChild(c);try{sp.onclick()}catch(e){}
+
+  if(conf<70||r.escalate){
+    var e=el('div',null,'card esc');
+    e.appendChild(el('h2','🧑‍🌾 '+(L.expert||'Ask an expert')));
+    e.appendChild(el('p',L.expert_text||'The AI is not fully sure. Send this photo to your nearest KVK agronomist for a manual check.'));
+    var bt=el('button','📤 '+(L.send||'Send to KVK'));bt.className='pri';
+    bt.onclick=function(){
+      bt.disabled=true;bt.textContent='✓ '+(L.queued||'Queued for KVK review (demo)');
+    };
+    e.appendChild(bt);
+    e.appendChild(el('p','Demo only: no real photo is sent. A full version would forward the image and GPS location to the local KVK.','note'));
+    o.appendChild(e);
+  }
+  wikiCard(r);consentCard(r);o.scrollIntoView({behavior:'smooth'});
+}
+
+$('go').addEventListener('click',async function(){
+  if(!blob)return;
+  var btn=$('go'),st=$('status');
+  btn.disabled=true;st.textContent='Checking your photo…';
+  try{
+    var sample=await claude.use('sample');
+    if(!sample){st.textContent='AI diagnosis is not available in this view. Open the page from its claude.ai link.';btn.disabled=false;return}
+    var pr=$('lang').value.split('|'),lang=pr[0],code=pr[1];
+    var prompt='You are an agronomy assistant for Indian smallholder farmers. Look at the attached crop photo and diagnose the most likely problem (disease, pest, nutrient deficiency, or healthy).\n'+
+    'Context: crop='+($('crop').value||'unknown, identify from photo')+'; season='+$('season').value+'; recent weather='+$('wx').value+'; location='+($('dist').value||'India')+'.\n'+
+    'Be honest: if the photo is unclear or not a plant, say so, set confidence low and escalate true. Prefer organic and low-cost options first (neem oil, Trichoderma, cultural practices). Only mention chemicals that are commonly registered for the crop in India, with a typical dose per litre of water and a reminder to check the label and local KVK. Never invent exact certainty.\n'+
+    'Write ALL text values in '+lang+' (use its native script) in very simple spoken words for a farmer who cannot read well: short sentences, at most 12 words per step, no jargon, and give amounts in everyday terms (for example “2 spoonfuls in a bucket of water”) together with the exact ratio. Use at most 4 steps. Return ONLY JSON with keys: crop, issue_en (the disease or pest name in English), crop_en (the crop name in English), issue, severity (one of "low","medium","high", English), severity_label (severity written in '+lang+'), confidence (integer 0-100), confidence_label (the word "Confidence" in '+lang+'), summary (2 short sentences), steps (3-5 short action steps), organic (0-3 remedies with mixing ratio), chemical (0-2 options with dose per litre, or empty), precautions (2-3 safety tips), escalate (boolean), labels (object with keys steps, organic, chemical, precautions, listen, expert, expert_text, send, queued: short UI headings in '+lang+').';
+    var lim=await sample.limits();
+    if(!lim||!lim.images){st.textContent='Photo analysis is not enabled for this view.';btn.disabled=false;return}
+    st.textContent='Diagnosing…';
+    var r=await sample.json(prompt,{images:[blob],modelTier:'default',cache:false});
+    st.textContent='';render(r,lang,code);
+  }catch(err){
+    st.textContent=(err&&err.code==='not_granted')?'Permission was declined, so I can’t analyse the photo.':'Something went wrong. Please try again.';
+  }
+  btn.disabled=false;
+});
+// ---------- simple language buttons with spoken guide ----------
+var T={English:{lc:'en-IN',cam:'Take a photo',go:'Diagnose',more:'More details (optional)',sub:'Tap the big camera button and take a photo of the sick leaf.'},
+Hindi:{lc:'hi-IN',cam:'फोटो लें',go:'जांच करें',more:'और जानकारी (वैकल्पिक)',sub:'बड़े कैमरा बटन को दबाएं और बीमार पत्ते की फोटो लें।'},
+Tamil:{lc:'ta-IN',cam:'புகைப்படம் எடுக்கவும்',go:'சோதிக்கவும்',more:'மேலும் விவரங்கள் (விருப்பம்)',sub:'பெரிய கேமரா பொத்தானை அழுத்தி நோயுற்ற இலையை படம் எடுக்கவும்.'},
+Telugu:{lc:'te-IN',cam:'ఫోటో తీయండి',go:'పరీక్షించండి',more:'మరిన్ని వివరాలు (ఐచ్ఛికం)',sub:'పెద్ద కెమెరా బటన్ నొక్కి, జబ్బుపడిన ఆకు ఫోటో తీయండి.'}};
+function setLang(v){var t=T[v.split('|')[0]];$('lang').value=v;
+  [].forEach.call(document.querySelectorAll('#langs button'),function(b){b.classList.toggle('on',b.dataset.v===v)});
+  if($('dropTxt'))$('dropTxt').textContent=t.cam;$('go').textContent='🔍 '+t.go;$('moreSum').textContent='⚙️ '+t.more;$('sub').textContent=t.sub;return t}
+[].forEach.call(document.querySelectorAll('#langs button'),function(b){b.onclick=function(){var t=setLang(b.dataset.v);try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t.sub);u.lang=t.lc;u.rate=.9;speechSynthesis.speak(u)}catch(e){}}});
+setLang('English|en-IN');
+
+// ---------- consent: farmer photo donation ----------
+var CT={English:{q:'May we keep this photo to make the app better at finding crop diseases? We never save your name, phone or location.',y:'Yes, share',n:'No thanks',l:'Listen',ok:'Thank you!'},
+Hindi:{q:'क्या हम इस फोटो को रख सकते हैं ताकि ऐप फसल की बीमारियां बेहतर पहचान सके? हम आपका नाम, फोन या लोकेशन कभी नहीं रखते।',y:'हाँ, दें',n:'नहीं',l:'सुनें',ok:'धन्यवाद!'},
+Tamil:{q:'பயிர் நோய்களை ஆப் சிறப்பாகக் கண்டறிய இந்த புகைப்படத்தை நாங்கள் வைத்துக்கொள்ளலாமா? உங்கள் பெயர், தொலைபேசி, இடம் ஆகியவற்றை நாங்கள் சேமிப்பதில்லை.',y:'ஆம், பகிர்',n:'வேண்டாம்',l:'கேளுங்கள்',ok:'நன்றி!'},
+Telugu:{q:'పంట వ్యాధులను యాప్ మెరుగ్గా గుర్తించడానికి ఈ ఫోటోను మేము ఉంచుకోవచ్చా? మీ పేరు, ఫోన్, లొకేషన్ మేము ఎప్పుడూ సేవ్ చేయము.',y:'అవును, పంపు',n:'వద్దు',l:'వినండి',ok:'ధన్యవాదాలు!'}};
+function safeUrl(u){return /^https?:\/\//i.test(String(u||''))?String(u):''}
+function link(txt,u){var a=el('a',txt);a.href=safeUrl(u)||'#';a.target='_blank';a.rel='noopener noreferrer';return a}
+function wikiCard(r){
+  var hasS=r.sources&&r.sources.length;
+  if(!r.wiki&&!hasS)return;
+  var c=el('div',null,'card');c.appendChild(el('h2','\ud83d\udcda Learn more'));
+  if(r.wiki){c.appendChild(el('p',String(r.wiki.extract||'')));c.appendChild(link('Wikipedia: '+r.wiki.title,r.wiki.url));c.appendChild(el('p','Wikipedia is in English and may not match your crop exactly.','note'))}
+  if(hasS){c.appendChild(el('h3','Checked against'));var u=el('ul');r.sources.forEach(function(x){var li=document.createElement('li');li.appendChild(link(String(x.title||x.url),x.url));u.appendChild(li)});c.appendChild(u)}
+  $('out').appendChild(c);
+}
+function consentCard(r){
+  var lg=$('lang').value.split('|'),t=CT[lg[0]]||CT.English;
+  var o=$('out'),c=el('div',null,'card');
+  c.appendChild(el('h2','\ud83c\udf31'));
+  var q=el('p',t.q);q.style.fontSize='18px';c.appendChild(q);
+  var ls=el('button','\ud83d\udd0a '+t.l);ls.className='sec big';ls.style.marginBottom='10px';
+  ls.onclick=function(){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t.q);u.lang=lg[1];u.rate=.9;speechSynthesis.speak(u)}catch(e){}};
+  c.appendChild(ls);
+  var row=el('div',null,'row');
+  var y=el('button','\ud83d\udc4d '+t.y);y.className='pri big';
+  var n=el('button','\u2716 '+t.n);n.className='sec big';
+  row.appendChild(y);row.appendChild(n);c.appendChild(row);
+  var m=el('p','');m.className='note';c.appendChild(m);
+  n.onclick=function(){c.remove()};
+  y.onclick=async function(){
+    y.disabled=true;n.disabled=true;m.className='note';m.textContent='\u2026';
+    try{
+      var fd=new FormData();fd.append('image',blob,'photo.jpg');fd.append('consent','true');
+      fd.append('label',String(r.issue_en||r.issue||'unknown'));fd.append('crop',String(r.crop_en||r.crop||$('crop').value||''));
+      fd.append('district',$('dist').value||'');fd.append('season',$('season').value);fd.append('weather',$('wx').value);
+      fd.append('aiConfidence',String(Number(r.confidence)||0));
+      var res=await fetch('/api/share',{method:'POST',body:fd});
+      if(!res.ok)throw new Error('share');
+      m.className='ok';m.textContent='\u2713 '+t.ok;row.remove();
+    }catch(e){m.className='err';m.textContent='Could not save. Please try again later.';y.disabled=false;n.disabled=false}
+  };
+  o.appendChild(c);
+}
+
+// ---------- owner tools (password checked on the server) ----------
+var tok=null;
+function field(lbl,type,id){var d=el('div',null,'f');d.appendChild(el('label',lbl));var i=document.createElement('input');i.type=type;i.id=id;i.autocomplete='off';d.appendChild(i);return d}
+function msg(p){var m=el('p','');m.className='err';p.appendChild(m);return m}
+function btn(t,fn,sec){var b=el('button',t);if(sec)b.className='sec';b.style.marginTop='8px';b.onclick=fn;return b}
+function api(path,opt){opt=opt||{};opt.headers=Object.assign({},opt.headers||{},tok?{Authorization:'Bearer '+tok}:{});return fetch(path,opt)}
+
+$('adminBtn').onclick=function(){
+  var p=$('admin');
+  if(!p.classList.contains('hidden')){p.classList.add('hidden');return}
+  p.classList.remove('hidden');if(tok)return panel();loginView();
+};
+
+function loginView(){
+  var p=$('admin');p.innerHTML='';p.appendChild(el('h2','Owner login'));
+  p.appendChild(field('Password','password','pw'));var m=msg(p);
+  var go=async function(){
+    try{var r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('pw').value})});
+      if(r.status===429){m.textContent='Too many tries. Wait a few minutes.';return}
+      if(r.status===404){m.textContent='Backend not found. The Netlify function was not deployed.';return}
+      if(r.status>=500){m.textContent='Server not set up. Check OWNER_PASSWORD in Netlify settings, then redeploy.';return}
+      if(!r.ok){m.textContent='Wrong password.';return}
+      tok=(await r.json()).token;panel();
+    }catch(e){m.textContent='Could not reach the server.'}
+  };
+  p.appendChild(btn('Unlock',go));
+  $('pw').onkeydown=function(e){if(e.key==='Enter')go()};
+}
+
+function panel(){
+  var p=$('admin');p.innerHTML='';
+  p.appendChild(el('h2','\ud83d\udd13 Owner tools'));
+  p.appendChild(el('h3','Add reference photos'));p.appendChild(el('p','Photos you label here are shown to the AI as examples when it diagnoses a crop. Use clear photos and the exact disease name.','note'));
+  var fi=document.createElement('input');fi.type='file';fi.accept='image/*';fi.multiple=true;fi.style.margin='6px 0';p.appendChild(fi);
+  p.appendChild(field('Label (disease / pest / \u201chealthy\u201d)','text','lab'));
+  p.appendChild(field('Crop','text','cr'));
+  var um=el('p','');um.className='note';
+  async function sendFiles(list,lab,crop){
+    var done=0;
+    for(var i=0;i<list.length;i+=6){
+      var fd=new FormData();fd.append('label',lab);fd.append('crop',crop);
+      var part=list.slice(i,i+6);
+      for(var j=0;j<part.length;j++){fd.append('images',await shrink(part[j]),'img'+j+'.jpg')}
+      var r=await api('/api/admin/cv',{method:'POST',body:fd});
+      if(r.status===401){tok=null;loginView();throw new Error('auth')}
+      if(!r.ok)throw new Error('up');
+      done+=part.length;um.className='note';um.textContent='Uploading… '+done+'/'+list.length;
+    }
+  }
+  p.appendChild(btn('Upload',async function(){
+    var fs=[].slice.call(fi.files),lab=$('lab').value.trim();
+    if(!fs.length||!lab){um.className='err';um.textContent='Pick images and enter a label.';return}
+    try{await sendFiles(fs,lab,$('cr').value.trim());um.className='ok';um.textContent='✓ Uploaded '+fs.length+' image(s).';fi.value='';loadGal()}
+    catch(e){if(e.message!=='auth'){um.className='err';um.textContent='Upload failed.'}}
+  }));
+  p.appendChild(um);
+  p.appendChild(el('h3','Or upload a whole folder'));
+  p.appendChild(el('p','On a computer: pick a folder that has one subfolder per disease (for example Tomato_Leaf_Blight). The subfolder name becomes the label. Not available on iPad.','note'));
+  var fo=document.createElement('input');fo.type='file';fo.multiple=true;fo.setAttribute('webkitdirectory','');fo.style.margin='6px 0';p.appendChild(fo);
+  p.appendChild(btn('Upload folder',async function(){
+    var fs=[].slice.call(fo.files).filter(function(f){return /^image\//.test(f.type)});
+    if(!fs.length){um.className='err';um.textContent='Pick a folder with photos.';return}
+    var groups={};
+    fs.forEach(function(f){var parts=(f.webkitRelativePath||'').split('/');var lab=parts.length>1?parts[parts.length-2]:'unlabelled';lab=lab.replace(/_/g,' ');(groups[lab]=groups[lab]||[]).push(f)});
+    try{var n=0;for(var lab in groups){await sendFiles(groups[lab],lab,$('cr').value.trim());n+=groups[lab].length}
+      um.className='ok';um.textContent='✓ Uploaded '+n+' image(s) in '+Object.keys(groups).length+' folder(s).';fo.value='';loadGal()}
+    catch(e){if(e.message!=='auth'){um.className='err';um.textContent='Upload failed.'}}
+  }));
+  p.appendChild(el('h3','Dataset'));
+  var sum=el('p','','note');sum.id='sum';p.appendChild(sum);
+  var g=el('div',null,'gal');g.id='gal';p.appendChild(g);
+  p.appendChild(btn('Lock',function(){tok=null;p.classList.add('hidden');p.innerHTML=''},true));
+  loadGal();
+}
+
+async function loadGal(){
+  var g=$('gal'),s=$('sum');if(!g)return;g.innerHTML='';
+  try{var r=await api('/api/admin/cv');
+    if(r.status===401){tok=null;loginView();return}
+    var j=await r.json(),f=0,labs={};
+    j.items.forEach(function(v){
+      if(v.source==='farmer')f++;labs[v.label]=1;
+      var fg=document.createElement('figure');var im=document.createElement('img');im.alt=String(v.label);
+      api('/api/admin/img/'+encodeURIComponent(v.file)).then(function(x){return x.blob()}).then(function(b){im.src=URL.createObjectURL(b)});
+      fg.appendChild(im);fg.appendChild(el('figcaption',(v.source==='farmer'?'\ud83d\udc68\u200d\ud83c\udf3e ':'')+v.label));
+      var x=el('button','\u2715','x');x.title='Delete';x.onclick=async function(){
+        if(!confirm('Delete this image?'))return;
+        try{await api('/api/admin/cv/'+encodeURIComponent(v.id),{method:'DELETE'})}catch(e){}
+        loadGal()};
+      fg.appendChild(x);g.appendChild(fg)});
+    s.textContent=j.total?j.total+' image(s) in total \u00b7 showing '+j.items.length+' \u00b7 '+f+' from farmers (with consent) \u00b7 '+Object.keys(labs).length+' label(s)':'No images yet.';
+  }catch(e){s.textContent='Could not load dataset.'}
+}
+})();
+</script>
+</body>
+</html>
